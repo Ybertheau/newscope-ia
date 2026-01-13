@@ -1,7 +1,7 @@
 import feedparser
 import json
 from datetime import datetime
-from sources import SOURCES
+from source import SOURCES
 from utils import is_recent, detect_paywall, extract_summary
 
 OUTPUT_PATH = "data/articles.json"
