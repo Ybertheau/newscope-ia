@@ -1,6 +1,8 @@
 import feedparser
 import yaml
 from pathlib import Path
+from datetime import datetime
+from time import mktime
 
 # Chemin vers la racine et le YAML
 PROJECT_DIR = Path(__file__).resolve().parent.parent
@@ -18,6 +20,17 @@ def load_sources():
             sources[src_id] = src
     return sources
 
+# Extraire une date de publication même si published_parsed est absent
+def get_published(entry):
+    if hasattr(entry, "published_parsed") and entry.published_parsed:
+        return datetime(*entry.published_parsed[:6])
+    elif hasattr(entry, "published") and entry.published:
+        try:
+            return datetime(*entry.published_parsed[:6])
+        except:
+            return None
+    return None
+
 # Tester chaque flux RSS
 def test_rss():
     sources = load_sources()
@@ -25,18 +38,20 @@ def test_rss():
     for src_id, source in sources.items():
         rss = source["rss"]
         print(f"\n{source['name']} ({src_id})")
+
         if isinstance(rss, list):
-            # Plusieurs flux possibles
-            for url in rss:
-                feed = feedparser.parse(url)
-                print(f"Flux : {url} → {len(feed.entries)} articles")
-                for entry in feed.entries[:5]:
-                    print(f" - {entry.title}")
+            rss_list = rss
         else:
-            feed = feedparser.parse(rss)
-            print(f"Flux : {rss} → {len(feed.entries)} articles")
+            rss_list = [rss]
+
+        for url in rss_list:
+            feed = feedparser.parse(url)
+            print(f"Flux : {url} → {len(feed.entries)} articles")
+
             for entry in feed.entries[:5]:
-                print(f" - {entry.title}")
+                pub_date = get_published(entry)
+                pub_str = pub_date.isoformat() if pub_date else "no date"
+                print(f" - {entry.title} | {pub_str}")
 
 if __name__ == "__main__":
     test_rss()

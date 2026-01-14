@@ -1,0 +1,39 @@
+import yaml
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+import numpy as np
+
+# --- Charger dataset ---
+with open("dataset/articles.yaml", "r", encoding="utf-8") as f:
+    data = yaml.safe_load(f)
+
+articles = []
+meta = []  # pour stocker titre, url, source, category
+for cat, items in data.items():
+    for art in items:
+        text = (art.get("title", "") + " " + art.get("summary", "")).strip()
+        if text:
+            articles.append(text)
+            meta.append(art)
+
+# --- TF-IDF ---
+vectorizer = TfidfVectorizer(stop_words="french", max_features=5000)
+X = vectorizer.fit_transform(articles)
+
+# --- Similarité ---
+sim_matrix = cosine_similarity(X)
+
+# --- Score de redondance : combien d'articles sont proches de chaque article ---
+threshold = 0.3  # similarité considérée comme “proche”
+scores = []
+for i in range(len(articles)):
+    score = np.sum(sim_matrix[i] > threshold)  # nombre d’articles similaires
+    scores.append(score)
+
+# --- Sélection Top 10 articles les plus représentatifs ---
+top_indices = np.argsort(scores)[::-1][:10]
+
+print("10 articles les plus représentatifs / redondants :\n")
+for idx in top_indices:
+    art = meta[idx]
+    print(f"- {art['title']} ({art['source']})")
