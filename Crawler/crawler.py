@@ -1,9 +1,8 @@
 import feedparser
 import json
 from datetime import datetime
-from source import SOURCES
 from utils import is_recent, detect_paywall, extract_summary
-
+SOURCES_FILE = "sources.yaml"
 OUTPUT_PATH = "data/articles.json"
 
 def crawl():
