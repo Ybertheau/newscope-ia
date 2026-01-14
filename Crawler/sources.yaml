@@ -5,35 +5,24 @@ categories:
       lemonde:
         name: "Le Monde"
         rss: "https://www.lemonde.fr/rss/une.xml"
-        bias: "centre-gauche"
-        paywall: true
 
       lefigaro:
         name: "Le Figaro"
         rss: "https://www.lefigaro.fr/rss/figaro_actualites.xml"
-        bias: "droite"
-        paywall: true
 
       liberation:
         name: "Libération"
         rss: "https://www.liberation.fr/arc/outboundfeeds/rss-all/collection/accueil-une/?outputType=xml"
-        bias: "gauche"
-        paywall: "partiel"
 
       lequipe:
         name: "L'Équipe"
         rss: "https://dwh.lequipe.fr/api/edito/rss?path=/"
-        bias: "neutre"
-        paywall: false
 
       franceinfo:
         name: "France Info"
         rss: "https://www.franceinfo.fr/titres.rss"
-        bias: "service-public"
-        paywall: false
 
       mondediplomatique:
         name: "Le Monde Diplomatique"
         rss: "https://www.monde-diplomatique.fr/rss/"
-        bias: "gauche"
-        paywall: false
+

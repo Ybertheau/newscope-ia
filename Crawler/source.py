@@ -1,6 +1,8 @@
+from pathlib import Path
 import yaml
 
-SOURCES_FILE = "sources.yaml"
+PROJECT_DIR = Path(__file__).resolve().parent.parent
+SOURCES_FILE = PROJECT_DIR / "crawler" / "sources.yaml"
 
 def load_sources():
     with open(SOURCES_FILE, "r", encoding="utf-8") as f:
