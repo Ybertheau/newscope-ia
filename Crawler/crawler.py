@@ -1,11 +1,11 @@
 import feedparser
 import yaml
 from datetime import datetime
-from utils import is_recent, detect_paywall, extract_summary
+from crawler.utils import is_recent, detect_paywall, extract_summary
 from pathlib import Path
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent  # remonte de crawler/ → racine
-SOURCES_FILE = PROJECT_DIR / "crawler" / "sources.yaml"
+SOURCES_FILE = PROJECT_DIR / "config" / "sources.yaml"
 DATASET_DIR = PROJECT_DIR / "dataset"
 MAX_ARTICLES_PER_SOURCE = 10  # limite pour chaque journal
 
