@@ -1,18 +1,20 @@
-
-from logging import config
 import sys
 from pathlib import Path
+
 from config.bootstrap import check_environment
 from crawler.testing import test_rss
 from crawler.crawler import crawl
-
+from ia.run import run_ia
 PROJECT_ROOT = Path(__file__).resolve().parent
 sys.path.append(str(PROJECT_ROOT))
 
+
 def main():
-    print("Newscope-IA")
+    print("Newscope-IA\n")
+
+    # 1. Bootstrap
     try:
-        check_environment
+        check_environment()
     except Exception as e:
         print(f"Bootstrap échoué : {e}")
         return
@@ -26,7 +28,7 @@ def main():
     except Exception as e:
         print(f"Tests RSS échoués : {e}")
         return
-     
+
     # 3. Crawl
     try:
         crawl()
@@ -34,7 +36,14 @@ def main():
         print(f"Crawling échoué : {e}")
         return
 
-    print("Pipeline terminé avec succès")
+    print("\nPipeline terminé avec succès")
 
+    try:
+        run_ia()
+    except Exception as e:
+        print(f"IA échouée : {e}")
+        return
+    
+    print("\nPipeline IA terminé avec succès")
 if __name__ == "__main__":
     main()
