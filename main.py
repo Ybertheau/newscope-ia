@@ -2,8 +2,8 @@ import sys
 from pathlib import Path
 
 from config.bootstrap import check_environment
-from tmp.testing import test_rss
-from tmp.crawler import crawl
+from crawler.testing import test_rss
+from crawler.crawler import crawl
 from ia.run import run_ia
 PROJECT_ROOT = Path(__file__).resolve().parent
 sys.path.append(str(PROJECT_ROOT))
