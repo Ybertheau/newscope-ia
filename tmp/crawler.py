@@ -1,7 +1,7 @@
 import feedparser
 import yaml
 from datetime import datetime
-from crawler.utils import is_recent, detect_paywall, extract_summary
+from tmp.utils import is_recent, detect_paywall, extract_summary
 from pathlib import Path
 
 PROJECT_DIR = Path(__file__).resolve().parent.parent  # remonte de crawler/ → racine
