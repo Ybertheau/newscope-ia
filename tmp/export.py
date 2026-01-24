@@ -1,7 +1,7 @@
 import yaml
 from datetime import datetime
 from pathlib import Path
-from ia.summary import summarize_cluster
+from tmp.summary import summarize_cluster
 
 def export_topics(topics, output_dir: Path):
     output_dir.mkdir(exist_ok=True)

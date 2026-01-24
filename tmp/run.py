@@ -1,9 +1,9 @@
 from pathlib import Path
-from ia.loader import load_dataset
-from ia.preprocess import build_corpus
-from ia.clustering import cluster_articles
-from ia.topics import extract_topics
-from ia.export import export_topics
+from tmp.loader import load_dataset
+from tmp.preprocess import build_corpus
+from tmp.clustering import cluster_articles
+from tmp.topics import extract_topics
+from tmp.export import export_topics
 
 
 def run_ia():
