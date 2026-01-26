@@ -4,13 +4,23 @@ from datetime import datetime
 from crawler.utils import is_recent, detect_paywall, extract_summary
 from pathlib import Path
 
-PROJECT_DIR = Path(__file__).resolve().parent.parent  # remonte de crawler/ → racine
+PROJECT_DIR = Path(__file__).resolve().parent.parent
 SOURCES_FILE = PROJECT_DIR / "config" / "sources.yaml"
+SETTINGS_FILE = PROJECT_DIR / "config" / "settings.yaml"
 DATASET_DIR = PROJECT_DIR / "dataset"
-MAX_ARTICLES_PER_SOURCE = 10  # limite pour chaque journal
 
 # ======================
-# Charger les sources depuis YAML
+# Charger settings
+# ======================
+def load_settings():
+    if SETTINGS_FILE.exists():
+        with open(SETTINGS_FILE, "r", encoding="utf-8") as f:
+            settings = yaml.safe_load(f)
+        return settings.get("crawler", {})
+    return {}
+
+# ======================
+# Charger sources depuis YAML
 # ======================
 def load_sources():
     with open(SOURCES_FILE, "r", encoding="utf-8") as f:
@@ -26,7 +36,10 @@ def load_sources():
 # ======================
 # Crawler
 # ======================
-def crawl():
+def crawl(max_articles_override: int = None):
+    settings = load_settings()
+    MAX_ARTICLES_PER_SOURCE = max_articles_override or settings.get("max_articles_per_source", 10)
+
     sources = load_sources()
     articles = []
 
@@ -35,7 +48,7 @@ def crawl():
         count = 0
 
         for entry in feed.entries:
-            if count >= MAX_ARTICLES_PER_SOURCE:
+            if MAX_ARTICLES_PER_SOURCE and count >= MAX_ARTICLES_PER_SOURCE:
                 break
             if not hasattr(entry, "published_parsed"):
                 continue
@@ -58,19 +71,14 @@ def crawl():
             articles.append(article)
             count += 1
 
-    # ======================
-    # Préparer le dossier dataset
-    # ======================
     DATASET_DIR.mkdir(exist_ok=True)
-
-    # Fichier par date
     today = datetime.now().strftime("%Y-%m-%d")
     output_file = DATASET_DIR / f"{today}.yaml"
 
     with open(output_file, "w", encoding="utf-8") as f:
         yaml.dump({"articles": articles}, f, allow_unicode=True, sort_keys=False)
 
-    print(f"{len(articles)} articles collectés et stockés dans {output_file}")
+    print(f"{len(articles)} articles collectés (limite par source = {MAX_ARTICLES_PER_SOURCE}) et stockés dans {output_file}")
 
 
 if __name__ == "__main__":

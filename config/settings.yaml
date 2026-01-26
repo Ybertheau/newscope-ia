@@ -1,0 +1,2 @@
+crawler:
+  max_articles_per_source: 50

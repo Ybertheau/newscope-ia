@@ -6,3 +6,5 @@ tqdm
 scikit-learn
 numpy
 newspaper3k
+torch
+streamlit
