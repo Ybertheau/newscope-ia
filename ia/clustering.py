@@ -4,9 +4,10 @@ from sklearn.cluster import KMeans
 def cluster_articles(corpus, n_topics=10):
     vectorizer = TfidfVectorizer(
         max_df=0.8,
-        min_df=2,
-        ngram_range=(1, 2)
-    )
+        min_df=3,
+        ngram_range=(1, 3),
+        max_features=5000
+    )    
 
     X = vectorizer.fit_transform(corpus)
 

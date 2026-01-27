@@ -1,6 +1,7 @@
 import os
 import sys
 import subprocess
+from datetime import datetime
 from pathlib import Path
 from config.bootstrap import check_environment
 from crawler.testing import test_rss
@@ -16,8 +17,9 @@ DATASET_DIR = PROJECT_ROOT / "dataset"
 
 # Recherche du dataset le plus récent
 def latest_dataset():
-    files = sorted(DATASET_DIR.glob("*.yaml"))
-    return files[-1] if files else None
+    today = datetime.now().strftime("%Y-%m-%d")
+    dataset_file = DATASET_DIR / f"{today}.yaml"
+    return dataset_file if dataset_file.exists() else None
 
 # Lancer le dashboard Streamlit
 def run_dashboard():

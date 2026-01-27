@@ -10,7 +10,8 @@ au aux avec ce ces dans de des du elle en et eux il je la le leur lui ma mais me
 STOPWORDS_MEDIA = set("""
 article réservé abonnés abonnement connectez connexion lire suite
 recevez essentiel actualité rubriques services journaux magazines
-live direct édition newsletter publié mis jour
+live direct édition newsletter publié mis jour figaro lefigaro lemonde liberation libération franceinfo
+le monde l equipe lequipe 20minutes 20 minutes ouestfrance ouest france sudouest sud ouest courrierinternational courrier international
 """.split())
 
 STOPWORDS_TIME = set("""
@@ -18,7 +19,13 @@ aujourd aujourd'hui hier demain lundi mardi mercredi jeudi vendredi
 janvier février mars avril mai juin juillet août septembre octobre novembre décembre
 """.split())
 
-ALL_STOPWORDS = STOPWORDS_FR | STOPWORDS_MEDIA | STOPWORDS_TIME
+STOPWORDS_NOISE = set("""
+temps lecture min minute minutes lire voir savoir
+sans paiement paiement gratuit compte créez creer
+essentiel actualites journal journaux
+""".split())
+
+ALL_STOPWORDS = STOPWORDS_FR | STOPWORDS_MEDIA | STOPWORDS_TIME | STOPWORDS_NOISE
 
 # =====================
 # PHRASES À SUPPRIMER (BRUIT FORT)
@@ -31,6 +38,10 @@ BLACKLIST_PHRASES = [
     "nos journaux et magazines",
     "mis à jour le",
     "publié le",
+    "temps de lecture",
+    "lecture min",
+    "sans paiement",
+    "créez un compte",
 ]
 
 # =====================
