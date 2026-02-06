@@ -2,6 +2,20 @@ import yaml
 from datetime import datetime
 from pathlib import Path
 from ia.summary import summarize_cluster
+from ia.preprocess import ALL_STOPWORDS
+
+
+def is_valid_keyword(word: str) -> bool:
+    if not word:
+        return False
+    if len(word) < 4:
+        return False
+    if word in ALL_STOPWORDS:
+        return False
+    if word.isdigit():
+        return False
+    return True
+
 
 def export_topics(topics, output_dir: Path):
     output_dir.mkdir(exist_ok=True)
@@ -20,10 +34,15 @@ def export_topics(topics, output_dir: Path):
 
         global_summary = summarize_cluster(summaries)
 
+        filtered_keywords = [
+            w for w in topic.get("keywords", [])
+            if is_valid_keyword(w)
+        ][:10]
+
         yaml_topics.append({
             "topic_id": int(topic_id),
             "articles_count": topic["count"],
-            "keywords": topic["keywords"],
+            "keywords": filtered_keywords,
             "summary": global_summary,
             "articles": [
                 {

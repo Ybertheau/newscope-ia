@@ -55,6 +55,7 @@ stopwords:
     - ouestfrance
     - sudouest
     - courrierinternational
+    - nos
 
   time:
     - aujourd
@@ -95,6 +96,9 @@ stopwords:
     - compte
     - créez
     - creer
+    - jour
+    - restez
+    - newsletters
 
 blacklist_phrases:
   - article réservé aux abonnés
@@ -107,3 +111,7 @@ blacklist_phrases:
   - temps de lecture
   - sans paiement
   - créez un compte
+  - nos newsletters
+  - restez à jour
+  - restez jour
+  - restez à jour nos newsletters
