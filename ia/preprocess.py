@@ -1,48 +1,36 @@
 import re
+import yaml
+from pathlib import Path
 
 # =====================
-# STOPWORDS
+# CONFIG
 # =====================
-STOPWORDS_FR = set("""
-au aux avec ce ces dans de des du elle en et eux il je la le leur lui ma mais me même mes moi mon ne nos notre nous on ou par pas pour qu que qui sa se ses son sur ta te tes toi ton tu un une vos votre vous
-""".split())
-
-STOPWORDS_MEDIA = set("""
-article réservé abonnés abonnement connectez connexion lire suite
-recevez essentiel actualité rubriques services journaux magazines
-live direct édition newsletter publié mis jour figaro lefigaro lemonde liberation libération franceinfo
-le monde l equipe lequipe 20minutes 20 minutes ouestfrance ouest france sudouest sud ouest courrierinternational courrier international
-""".split())
-
-STOPWORDS_TIME = set("""
-aujourd aujourd'hui hier demain lundi mardi mercredi jeudi vendredi
-janvier février mars avril mai juin juillet août septembre octobre novembre décembre
-""".split())
-
-STOPWORDS_NOISE = set("""
-temps lecture min minute minutes lire voir savoir
-sans paiement paiement gratuit compte créez creer
-essentiel actualites journal journaux
-""".split())
-
-ALL_STOPWORDS = STOPWORDS_FR | STOPWORDS_MEDIA | STOPWORDS_TIME | STOPWORDS_NOISE
+CONFIG_PATH = Path(__file__).resolve().parent.parent / "config" / "stopwords.yaml"
 
 # =====================
-# PHRASES À SUPPRIMER (BRUIT FORT)
+# LOAD STOPWORDS
 # =====================
-BLACKLIST_PHRASES = [
-    "article réservé aux abonnés",
-    "connectez-vous pour lire",
-    "recevez l'essentiel de l'actualité",
-    "rubriques et services",
-    "nos journaux et magazines",
-    "mis à jour le",
-    "publié le",
-    "temps de lecture",
-    "lecture min",
-    "sans paiement",
-    "créez un compte",
-]
+def load_stopwords():
+    if not CONFIG_PATH.exists():
+        raise FileNotFoundError(f"Fichier stopwords introuvable : {CONFIG_PATH}")
+
+    with open(CONFIG_PATH, "r", encoding="utf-8") as f:
+        config = yaml.safe_load(f) or {}
+
+    stopwords = set()
+    for group in config.get("stopwords", {}).values():
+        stopwords.update(w.strip().lower() for w in group)
+
+    blacklist_phrases = [
+        p.strip().lower()
+        for p in config.get("blacklist_phrases", [])
+    ]
+
+    return stopwords, blacklist_phrases
+
+
+# Chargement global (une seule fois)
+ALL_STOPWORDS, BLACKLIST_PHRASES = load_stopwords()
 
 # =====================
 # CLEAN TEXT
@@ -60,7 +48,7 @@ def clean_text(text: str) -> str:
     # URLs
     text = re.sub(r"http\S+", " ", text)
 
-    # Dates (ex: 25 janvier 2026, 2026-01-25)
+    # Dates
     text = re.sub(r"\b\d{1,2}\s+\w+\s+\d{4}\b", " ", text)
     text = re.sub(r"\b\d{4}-\d{2}-\d{2}\b", " ", text)
 

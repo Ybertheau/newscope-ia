@@ -1,0 +1,109 @@
+stopwords:
+  fr:
+    - au
+    - aux
+    - avec
+    - ce
+    - ces
+    - dans
+    - de
+    - des
+    - du
+    - elle
+    - en
+    - et
+    - eux
+    - il
+    - je
+    - la
+    - le
+    - leur
+    - lui
+    - mais
+    - même
+    - ne
+    - nous
+    - pas
+    - pour
+    - que
+    - qui
+    - sur
+    - un
+    - une
+    - vous
+
+  media:
+    - article
+    - réservé
+    - abonnés
+    - abonnement
+    - connectez
+    - connexion
+    - lire
+    - suite
+    - newsletter
+    - publié
+    - figaro
+    - lefigaro
+    - lemonde
+    - liberation
+    - libération
+    - franceinfo
+    - lequipe
+    - l'équipe
+    - 20minutes
+    - ouestfrance
+    - sudouest
+    - courrierinternational
+
+  time:
+    - aujourd
+    - aujourd'hui
+    - hier
+    - demain
+    - lundi
+    - mardi
+    - mercredi
+    - jeudi
+    - vendredi
+    - janvier
+    - février
+    - mars
+    - avril
+    - mai
+    - juin
+    - juillet
+    - août
+    - septembre
+    - octobre
+    - novembre
+    - décembre
+
+  noise:
+    - faire
+    - comment
+    - sans
+    - affaire
+    - cas
+    - situation
+    - personne
+    - temps
+    - lecture
+    - minute
+    - paiement
+    - gratuit
+    - compte
+    - créez
+    - creer
+
+blacklist_phrases:
+  - article réservé aux abonnés
+  - connectez-vous pour lire
+  - recevez l'essentiel de l'actualité
+  - rubriques et services
+  - nos journaux et magazines
+  - mis à jour le
+  - publié le
+  - temps de lecture
+  - sans paiement
+  - créez un compte
